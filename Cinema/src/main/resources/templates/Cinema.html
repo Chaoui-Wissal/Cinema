@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en"
+
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="Layout"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Les cinemas </title>
+</head>
+<body>
+<div layout:fragment="content">
+
+
+    <div class ="m-5">
+        <nav class="navbar navbar-light">
+
+            <form class="form-inline">
+                <input class="form-control mr-sm-2 " type="search" placeholder="Le nom du cinema" name="keyword" th:value="${keyword}" aria-label="Search">
+                <button class="btn btn-success my-2 my-sm-0" type="submit">Rechercher</button>
+                <button class="btn btn-outline-primary my-2 my-sm-0" style="margin:5px" type="submit" ><a th:href="@{formcinema}" >Ajouter</a></button>
+            </form>
+        </nav>
+        <br>
+        <table class="table">
+            <thead class="thead-light">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Nom Cinema</th>
+                <th scope="col">Nombre des salles</th>
+                <th scope="col">Ville</th>
+                <th scope="col" >Traitement</th>
+
+<!--                <th scope="col" sec:authorize="hasRole('ADMIN')">Supprimer/Modifier Patient</th>-->
+            </tr>
+            </thead>
+            <tbody>
+            <tr  th:each="c:${listeCinema}">
+
+                <td th:text ="${c.id}"></td>
+                <td th:text ="${c.name}"></td>
+                <td th:text ="${c.nombredesalles}"></td>
+                <td th:text ="${c.ville.getName()}"></td>
+                <td >
+                    <a   onclick="return confirm('comfirmer la suppression ?')" class="btn btn-dark " th:href="@{delete(id=${c.id},keyword=${keyword},page=${currentPage},size=${size})}">Supprimer</a>
+                    <a   class="btn btn-dark " th:href="@{editercinema(id=${c.id})}">Modifier</a>
+                </td>
+
+            </tr>
+            </tbody>
+
+            </tbody>
+
+        </table>
+        <div class="ml-5 mr-5 mt-4 mb-4">
+            <nav aria-label="...">
+                <ul class="nav nav--pills">
+                    <li class="page-item active" aria-current="page" th:each="page,status:${pages}">
+                        <a th:class="${status.index==currentPage?'btn btn-success':'btn'}"
+                           th:href="@{cinema(page=${status.index},keyword=${keyword},size=${size})}"
+                           th:text="${status.index}">
+
+
+                        </a>
+                    </li>
+
+                </ul>
+            </nav>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

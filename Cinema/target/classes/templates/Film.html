@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en"
+
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="Layout"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Les Films </title>
+</head>
+<body>
+<div layout:fragment="content">
+
+
+    <div class ="m-5">
+        <nav class="navbar navbar-light bg-light">
+
+            <form class="form-inline">
+
+                <input class="form-control mr-sm-2 " type="search" placeholder="Le nom du film" name="keyword" th:value="${keyword}" aria-label="Search">
+                <button class="btn btn-success my-2 my-sm-0" type="submit">Rechercher</button>
+            </form>
+        </nav>
+        <br>
+        <table class="table">
+            <thead class="thead-light">
+            <tr>
+                <th scope="col">Photo</th>
+                <th scope="col">Nom Cinema</th>
+                <th scope="col">description</th>
+                <th scope="col">duree</th>
+                <th scope="col" >Categorie</th>
+
+                <!--                <th scope="col" sec:authorize="hasRole('ADMIN')">Supprimer/Modifier Patient</th>-->
+            </tr>
+            </thead>
+            <tbody>
+            <tr  th:each="f:${listeFilm}">
+
+                <td ><img  class="card-img-top" style="width: 120px ; height: 120px"  th:src="@{'imageFilm/' + ${f.id}} "></td>
+                <td th:text ="${f.titre}"></td>
+
+                <td th:text="${f.description}==null?'Some quick example text to build on the card title .':${f.description}"></td>
+                <td th:text ="${f.duree}"></td>
+                <td th:text ="${f.categorie.getName()}"></td>
+                <td>
+                    <a class="btn btn-success" th:href="@{/projection(idf=${f.id})}">Afficher</a></td>
+
+
+            </tr>
+
+
+            </tbody>
+
+        </table>
+
+
+
+
+
+
+
+        <div class="ml-5 mr-5 mt-4 mb-4">
+            <nav aria-label="...">
+                <ul class="nav nav--pills">
+                    <li class="page-item active" aria-current="page" th:each="page,status:${pages}">
+                        <a th:class="${status.index==currentPage?'btn btn-success':'btn'}"
+                           th:href="@{film(page=${status.index},keyword=${keyword},size=${size})}"
+                           th:text="${status.index}">
+
+
+                        </a>
+                    </li>
+
+                </ul>
+            </nav>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>
